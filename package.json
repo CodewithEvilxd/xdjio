@@ -1,0 +1,73 @@
+{
+  "name": "jiosaavn-api",
+  "version": "0.0.5",
+  "description": "Unofficial JioSaavn API",
+  "type": "module",
+  "license": "MIT",
+  "repository": "https://github.com/sumitkolhe/jiosaavn-api",
+  "author": "Sumit Kolhe",
+  "main": "dist/server.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.js"
+  },
+  "sideEffects": false,
+  "imports": {
+    "#modules/*": {
+      "types": "./src/modules/*/index.d.ts",
+      "production": "./dist/modules/*/index.js",
+      "default": "./src/modules/*/"
+    },
+    "#common/*": {
+      "types": "./src/common/*/index.d.ts",
+      "production": "./dist/common/*/index.js",
+      "default": "./src/common/*/"
+    }
+  },
+  "scripts": {
+    "dev": "bun run --hot src/server.ts",
+    "start": "bun dist/server.js",
+    "build": "tsc && tsc-alias",
+    "format": "prettier --write \"./**/*.{js,ts,json}\"",
+    "lint": "eslint .",
+    "lint:fix": "bun run lint --fix",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "deploy": "wrangler deploy",
+    "release": "bun run test && bun run changelogen --release --push",
+    "postinstall": "npx simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bun run lint && bun run format",
+    "commit-msg": "bun run commitlint --edit $1"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.16.2",
+    "@hono/zod-validator": "^0.3.0",
+    "@scalar/hono-api-reference": "^0.5.149",
+    "hono": "^4.6.3",
+    "node-forge": "^1.3.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@kolhe/eslint-config": "2.2.5",
+    "@types/bun": "^1.1.10",
+    "@types/node": "^22.7.4",
+    "@types/node-forge": "^1.3.11",
+    "@vitest/coverage-v8": "^2.1.1",
+    "@vitest/ui": "^2.1.1",
+    "changelogen": "^0.5.7",
+    "eslint": "^9.11.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1",
+    "wrangler": "^3.78.12"
+  }
+}
